@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano di Studi & Routine Settimanale — Ingegneria Meccanica UNIPD</title>
+    <style>
+        :root {
+            --bg-main: #050508;
+            --bg-window: #0d0f15;
+            --bg-header: #13161f;
+            --bg-card: #11131b;
+            --bg-card-inner: #090a0e;
+            --border-color: #222634;
+            --border-hover: #333a4f;
+            --text-primary: #f4f4f6;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+
+            --blue: #3b82f6;
+            --blue-bg: rgba(59, 130, 246, 0.12);
+            --blue-border: rgba(59, 130, 246, 0.35);
+
+            --purple: #a855f7;
+            --purple-bg: rgba(168, 85, 247, 0.12);
+            --purple-border: rgba(168, 85, 247, 0.35);
+
+            --emerald: #10b981;
+            --emerald-bg: rgba(16, 185, 129, 0.12);
+            --emerald-border: rgba(16, 185, 129, 0.35);
+
+            --amber: #f59e0b;
+            --amber-bg: rgba(245, 158, 11, 0.12);
+            --amber-border: rgba(245, 158, 11, 0.35);
+
+            --rose: #f43f5e;
+            --rose-bg: rgba(244, 63, 94, 0.12);
+            --rose-border: rgba(244, 63, 94, 0.35);
+
+            --cyan: #06b6d4;
+            --cyan-bg: rgba(6, 182, 212, 0.12);
+            --cyan-border: rgba(6, 182, 212, 0.35);
+
+            --zinc: #71717a;
+            --zinc-bg: rgba(113, 113, 122, 0.14);
+            --zinc-border: rgba(113, 113, 122, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            padding-bottom: 60px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Scrollbar personalizzata */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222634;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #333a4f;
+        }
+
+        /* Navbar */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-inner {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .window-dots {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; opacity: 0.85; }
+        .dot-yellow { background: #f59e0b; opacity: 0.85; }
+        .dot-green { background: #10b981; opacity: 0.85; }
+
+        .nav-brand {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow-x: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 6px 11px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #1a1d28;
+            color: #fff;
+        }
+
+        /* Container Principale */
+        .container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 24px 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* Finestra Stile App / IDE */
+        .window {
+            background-color: var(--bg-window);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.85);
+            overflow: hidden;
+            scroll-margin-top: 72px;
+        }
+
+        .window-bar {
+            background: linear-gradient(180deg, #161923 0%, #0f1118 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .window-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .window-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+
+        .window-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* Header Hero */
+        .hero-body {
+            padding: 26px;
+        }
+
+        .hero-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .target-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: #07080b;
+            border: 1px solid var(--border-color);
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.76rem;
+            color: #d4d4d8;
+            margin-bottom: 12px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--emerald);
+            box-shadow: 0 0 8px var(--emerald);
+        }
+
+        .hero-title {
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #fff;
+        }
+
+        .hero-desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            margin-top: 6px;
+            max-width: 680px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(110px, 1fr));
+            gap: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                width: 100%;
+            }
+        }
+
+        .stat-box {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 4px 0 2px;
+        }
+
+        .stat-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Barra Progresso Globale */
+        .progress-wrapper {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .progress-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 10px;
+            background: #06070a;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--blue), var(--purple), var(--emerald));
+            border-radius: 999px;
+            transition: width 0.35s ease;
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:hover {
+            border-color: var(--rose-border);
+            color: var(--rose);
+            background: var(--rose-bg);
+        }
+
+        /* Filtri Calendario */
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .filter-btn {
+            border: 1px solid var(--border-color);
+            background: #141722;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 5px 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #3f475e;
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: #f4f4f6;
+            color: #050508;
+            border-color: #f4f4f6;
+        }
+
+        /* Griglia Settimanale 7 Giorni */
+        .weekly-grid {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 1200px) {
+            .weekly-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .weekly-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .weekly-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .day-column {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .day-header {
+            background: #131620;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .day-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .day-tag {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 5px;
+            background: #1c2030;
+            color: var(--text-secondary);
+        }
+
+        .day-body {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .period-block {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .period-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding-left: 2px;
+        }
+
+        .slot-card {
+            border-radius: 8px;
+            padding: 8px 9px;
+            border: 1px solid transparent;
+            transition: opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .slot-card.dimmed {
+            opacity: 0.16;
+            filter: grayscale(85%);
+            transform: scale(0.98);
+        }
+
+        .slot-time {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.69rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .slot-title {
+            font-size: 0.78rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        /* Colori tipologie slot */
+        .type-analisi { background: var(--blue-bg); border-color: var(--blue-border); }
+        .type-analisi .slot-time { color: #60a5fa; }
+        .type-analisi .slot-title { color: #dbeafe; }
+
+        .type-algebra { background: var(--purple-bg); border-color: var(--purple-border); }
+        .type-algebra .slot-time { color: #c084fc; }
+        .type-algebra .slot-title { color: #f3e8ff; }
+
+        .type-chimica { background: var(--emerald-bg); border-color: var(--emerald-border); }
+        .type-chimica .slot-time { color: #34d399; }
+        .type-chimica .slot-title { color: #d1fae5; }
+
+        .type-finanza { background: var(--amber-bg); border-color: var(--amber-border); }
+        .type-finanza .slot-time { color: #fbbf24; }
+        .type-finanza .slot-title { color: #fef3c7; }
+
+        .type-palestra { background: var(--rose-bg); border-color: var(--rose-border); }
+        .type-palestra .slot-time { color: #fb7185; }
+        .type-palestra .slot-title { color: #ffe4e6; }
+
+        .type-lavoro { background: var(--cyan-bg); border-color: var(--cyan-border); }
+        .type-lavoro .slot-time { color: #22d3ee; }
+        .type-lavoro .slot-title { color: #cffafe; }
+
+        .type-lezione { background: var(--zinc-bg); border-color: var(--zinc-border); }
+        .type-lezione .slot-time { color: #a1a1aa; }
+        .type-lezione .slot-title { color: #e4e4e7; }
+
+        .type-libero { background: #0c0e14; border-color: #191c26; }
+        .type-libero .slot-time { color: #52525b; }
+        .type-libero .slot-title { color: #71717a; }
+
+        /* Intestazione Sezione Materie */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 4px 2px;
+        }
+
+        .section-divider-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accent-pill {
+            width: 5px;
+            height: 24px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, var(--blue), var(--purple));
+        }
+
+        /* Griglia 3 Materie */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            align-items: start;
+        }
+
+        @media (max-width: 1100px) {
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .subject-window-analisi { border-top: 3px solid var(--blue); }
+        .subject-window-algebra { border-top: 3px solid var(--purple); }
+        .subject-window-chimica { border-top: 3px solid var(--emerald); }
+
+        .hours-badge {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 6px;
+        }
+
+        .badge-blue { background: var(--blue-bg); color: #60a5fa; border: 1px solid var(--blue-border); }
+        .badge-purple { background: var(--purple-bg); color: #c084fc; border: 1px solid var(--purple-border); }
+        .badge-emerald { background: var(--emerald-bg); color: #34d399; border: 1px solid var(--emerald-border); }
+
+        .slot-summary-bar {
+            background: #08090d;
+            border-bottom: 1px solid var(--border-color);
+            padding: 9px 18px;
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+        }
+
+        .subject-content {
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .block-header {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 6px 10px;
+            border-radius: 7px;
+            background: #141722;
+            border: 1px solid var(--border-color);
+            color: #d4d4d8;
+            margin-bottom: 10px;
+        }
+
+        .week-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 11px 12px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .task-card:hover {
+            border-color: var(--border-hover);
+            background: #0e1017;
+        }
+
+        .task-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            border-radius: 5px;
+            border: 1.5px solid #3f475e;
+            background: #050508;
+            margin-top: 2px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.15s ease;
+        }
+
+        .task-checkbox:checked {
+            background: var(--emerald);
+            border-color: var(--emerald);
+        }
+
+        .task-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #050508;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .task-card.completed .task-week-tag {
+            opacity: 0.55;
+        }
+
+        .task-card.completed .task-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .task-card.completed .task-desc {
+            color: #52525b;
+        }
+
+        .task-week-tag {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+
+        .task-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f4f4f6;
+            margin-bottom: 4px;
+        }
+
+        .task-desc {
+            font-size: 0.77rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+        }
+
+        /* Finestra Strategia Operativa */
+        .strategy-grid {
+            padding: 22px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .strategy-box {
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .strategy-box-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .timeline-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: #d4d4d8;
+        }
+
+        .time-pill {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 6px;
+            background: #181b26;
+            border: 1px solid var(--border-color);
+            color: #e4e4e7;
+            white-space: nowrap;
+        }
+
+        .finance-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .finance-mini-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .finance-mini-card {
+            background: #10121a;
+            border: 1px solid var(--border-color);
+            border-radius: 9px;
+            padding: 11px;
+        }
+
+        .finance-mini-time {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 0.73rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 4px;
+        }
+
+        .finance-mini-text {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .strategy-footer {
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.74rem;
+            color: var(--text-muted);
+        }
+
+        /* Toast feedback */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #151822;
+            border: 1px solid #2e3548;
+            color: #f4f4f6;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 200;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DI NAVIGAZIONE SUPERIORE -->
+    <nav class="top-nav">
+        <div class="nav-inner">
+            <div class="window-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+                <span class="nav-brand">UNIPD // Ing. Meccanica Y1</span>
+            </div>
+            <div class="nav-links">
+                <a href="#finestra-orario">Piano Settimanale</a>
+                <a href="#finestra-analisi" style="color:#60a5fa;">Analisi 1</a>
+                <a href="#finestra-algebra" style="color:#c084fc;">Algebra Lineare</a>
+                <a href="#finestra-chimica" style="color:#34d399;">Chimica</a>
+                <a href="#finestra-strategia" style="color:#fbbf24;">Strategia Weekend</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- 1. HEADER & RIEPILOGO -->
+        <header class="window">
+            <div class="hero-body">
+                <div class="hero-top">
+                    <div>
+                        <div class="target-badge">
+                            <span class="pulse-dot"></span>
+                            Obiettivo Appelli di Metà Gennaio | Piano Completo (Settimane 1–7)
+                        </div>
+                        <h1 class="hero-title">Piano di Studi &amp; Routine Settimanale — Ingegneria Meccanica UNIPD (1° Anno)</h1>
+                        <p class="hero-desc">
+                            Organizzazione settimanale integrata con lezioni, allenamenti in palestra, lavoro del sabato pomeriggio, educazione finanziaria e programmi completi dall'inizio fino alle simulazioni d'esame.
+                        </p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">Università</div>
+                            <div class="stat-value" style="color:#60a5fa;">~20,5h</div>
+                            <div class="stat-sub">Studio / sett</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Palestra</div>
+                            <div class="stat-value" style="color:#fb7185;">4x</div>
+                            <div class="stat-sub">Lun–Gio / sett</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Finanza</div>
+                            <div class="stat-value" style="color:#fbbf24;">5,0h</div>
+                            <div class="stat-sub">Personale / sett</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Lavoro</div>
+                            <div class="stat-value" style="color:#22d3ee;">1x</div>
+                            <div class="stat-sub">Sabato 16–19</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra Avanzamento Interattiva -->
+                <div class="progress-wrapper">
+                    <div class="progress-bar-container">
+                        <span style="font-size:0.78rem; color:var(--text-secondary); font-weight:600; white-space:nowrap;">Avanzamento Programmi:</span>
+                        <div class="progress-track">
+                            <div id="global-progress-fill" class="progress-fill"></div>
+                        </div>
+                        <span id="global-progress-text" style="font-family:monospace; font-size:0.85rem; font-weight:700; color:#fff; min-width:38px; text-align:right;">0%</span>
+                    </div>
+                    <button type="button" class="btn-reset" onclick="resetAllProgress()">Reset progressi</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. FINESTRA 1 — PIANO SETTIMANALE (LUNEDÌ – DOMENICA) -->
+        <section id="finestra-orario" class="window">
+            <div class="window-bar">
+                <div>
+                    <div class="window-title">Piano Settimanale (Lunedì – Domenica)</div>
+                    <div class="window-subtitle">Suddivisione giornaliera tra Mattina, Pomeriggio e Sera • Usa i filtri per isolare un'attività</div>
+                </div>
+                <div class="filter-group" id="filter-buttons">
+                    <button type="button" class="filter-btn active" data-filter="all">Tutto</button>
+                    <button type="button" class="filter-btn" data-filter="analisi">Analisi 1</button>
+                    <button type="button" class="filter-btn" data-filter="algebra">Algebra Lineare</button>
+                    <button type="button" class="filter-btn" data-filter="chimica">Chimica</button>
+                    <button type="button" class="filter-btn" data-filter="lezione">Lezioni</button>
+                    <button type="button" class="filter-btn" data-filter="palestra">Palestra</button>
+                    <button type="button" class="filter-btn" data-filter="lavoro">Lavoro</button>
+                    <button type="button" class="filter-btn" data-filter="finanza">Educazione Finanziaria</button>
+                </div>
+            </div>
+
+            <div class="weekly-grid" id="weekly-grid">
+                <!-- LUNEDÌ -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Lunedì</span>
+                        <span class="day-tag">Lez + Gym</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-libero" data-tags="libero">
+                                <div class="slot-time">Mattina</div>
+                                <div class="slot-title">Libero / spostamenti</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-lezione" data-tags="lezione">
+                                <div class="slot-time">10:30 – 14:30</div>
+                                <div class="slot-title">Lezione</div>
+                            </div>
+                            <div class="slot-card type-palestra" data-tags="palestra">
+                                <div class="slot-time">14:45 – 17:30</div>
+                                <div class="slot-title">Palestra</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-algebra" data-tags="algebra">
+                                <div class="slot-time">18:30 – 20:15 (1,75h)</div>
+                                <div class="slot-title">Riordino appunti + Algebra Lineare</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MARTEDÌ -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Martedì</span>
+                        <span class="day-tag">Full Day</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-lezione" data-tags="lezione">
+                                <div class="slot-time">08:30 – 12:30</div>
+                                <div class="slot-title">Lezione</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-analisi" data-tags="analisi">
+                                <div class="slot-time">13:45 – 16:15 (2,5h)</div>
+                                <div class="slot-title">Analisi 1</div>
+                            </div>
+                            <div class="slot-card type-chimica" data-tags="chimica">
+                                <div class="slot-time">16:30 – 18:00 (1,5h)</div>
+                                <div class="slot-title">Chimica</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-palestra" data-tags="palestra">
+                                <div class="slot-time">18:30 – 22:00</div>
+                                <div class="slot-title">Palestra + Cena (stop studio)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MERCOLEDÌ -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Mercoledì</span>
+                        <span class="day-tag">Deep Work</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-lezione" data-tags="lezione">
+                                <div class="slot-time">08:30 – 12:30</div>
+                                <div class="slot-title">Lezione</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-palestra" data-tags="palestra">
+                                <div class="slot-time">12:45 – 16:00</div>
+                                <div class="slot-title">Palestra</div>
+                            </div>
+                            <div class="slot-card type-algebra" data-tags="algebra">
+                                <div class="slot-time">16:45 – 19:45 (3h)</div>
+                                <div class="slot-title">Algebra Lineare</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-analisi" data-tags="analisi">
+                                <div class="slot-time">21:00 – 22:15 (1,25h)</div>
+                                <div class="slot-title">Analisi 1</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GIOVEDÌ -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Giovedì</span>
+                        <span class="day-tag">Lez + Gym</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-analisi" data-tags="analisi">
+                                <div class="slot-time">08:15 – 10:00 (1,75h)</div>
+                                <div class="slot-title">Analisi 1</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-lezione" data-tags="lezione">
+                                <div class="slot-time">10:30 – 14:30</div>
+                                <div class="slot-title">Lezione</div>
+                            </div>
+                            <div class="slot-card type-palestra" data-tags="palestra">
+                                <div class="slot-time">14:45 – 17:30</div>
+                                <div class="slot-title">Palestra</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-algebra" data-tags="algebra">
+                                <div class="slot-time">18:30 – 20:00 (1,5h)</div>
+                                <div class="slot-title">Algebra Lineare</div>
+                            </div>
+                            <div class="slot-card type-finanza" data-tags="finanza">
+                                <div class="slot-time">21:00 – 22:00 (1h)</div>
+                                <div class="slot-title">Educazione Finanziaria</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VENERDÌ -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Venerdì</span>
+                        <span class="day-tag">Mattina</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-analisi" data-tags="analisi">
+                                <div class="slot-time">08:30 – 10:15 (1,75h)</div>
+                                <div class="slot-title">Analisi 1</div>
+                            </div>
+                            <div class="slot-card type-chimica" data-tags="chimica">
+                                <div class="slot-time">10:30 – 12:00 (1,5h)</div>
+                                <div class="slot-title">Chimica</div>
+                            </div>
+                            <div class="slot-card type-finanza" data-tags="finanza">
+                                <div class="slot-time">12:00 – 13:00 (1h)</div>
+                                <div class="slot-title">Educazione Finanziaria</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-lezione" data-tags="lezione">
+                                <div class="slot-time">14:30 – 16:30</div>
+                                <div class="slot-title">Lezione</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-libero" data-tags="libero">
+                                <div class="slot-time">Sera</div>
+                                <div class="slot-title">Libero</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SABATO -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Sabato</span>
+                        <span class="day-tag">Studio+Lav</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-analisi" data-tags="analisi algebra">
+                                <div class="slot-time">09:00 – 12:30 (3,5h)</div>
+                                <div class="slot-title">Recupero lezione venerdì + Simulazioni Analisi 1 / Algebra Lineare</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-finanza" data-tags="finanza">
+                                <div class="slot-time">13:45 – 15:00 (1,25h)</div>
+                                <div class="slot-title">Educazione Finanziaria</div>
+                            </div>
+                            <div class="slot-card type-lavoro" data-tags="lavoro">
+                                <div class="slot-time">15:30 – 19:30</div>
+                                <div class="slot-title">Lavoro (turno 16:00–19:00, partenza ore 15:30)</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-libero" data-tags="libero">
+                                <div class="slot-time">Sera</div>
+                                <div class="slot-title">Libero</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOMENICA -->
+                <div class="day-column">
+                    <div class="day-header">
+                        <span class="day-name">Domenica</span>
+                        <span class="day-tag">Recupero</span>
+                    </div>
+                    <div class="day-body">
+                        <div class="period-block">
+                            <div class="period-label">Mattina</div>
+                            <div class="slot-card type-libero" data-tags="libero">
+                                <div class="slot-time">Mattina</div>
+                                <div class="slot-title">Libero</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Pomeriggio</div>
+                            <div class="slot-card type-finanza" data-tags="finanza">
+                                <div class="slot-time">15:30 – 17:15 (1,75h)</div>
+                                <div class="slot-title">Educazione Finanziaria</div>
+                            </div>
+                        </div>
+                        <div class="period-block">
+                            <div class="period-label">Sera</div>
+                            <div class="slot-card type-libero" data-tags="libero">
+                                <div class="slot-time">Sera</div>
+                                <div class="slot-title">Libero</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTESTAZIONE PIANI DI STUDIO PER MATERIA -->
+        <div class="section-divider">
+            <div class="section-divider-left">
+                <div class="accent-pill"></div>
+                <div>
+                    <h2 style="font-size:1.15rem; font-weight:800; color:#fff;">Piani di Studio Specifici per Materia (Settimane 1–7)</h2>
+                    <p style="font-size:0.8rem; color:var(--text-secondary);">Partenza dall'inizio assoluto di ogni programma ufficiale fino alle simulazioni pre-appello</p>
+                </div>
+            </div>
+            <span style="font-size:0.76rem; color:var(--text-secondary); background:#0d0f15; border:1px solid var(--border-color); padding:5px 10px; border-radius:8px;">
+                Spunta le settimane completate (salvataggio automatico)
+            </span>
+        </div>
+
+        <!-- 3. FINESTRE SEPARATE PER I PIANI DI STUDIO DELLE 3 MATERIE -->
+        <div class="subjects-grid">
+
+            <!-- FINESTRA 2 — ANALISI MATEMATICA 1 -->
+            <section id="finestra-analisi" class="window subject-window-analisi">
+                <div class="window-bar">
+                    <div>
+                        <div class="window-title" style="color:#93c5fd;">Analisi Matematica 1</div>
+                        <div class="window-subtitle">Prof. G. Colombo • Canale B</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span class="hours-badge badge-blue">~8,5h / sett</span>
+                        <div id="count-analisi" style="font-family:monospace; font-size:0.72rem; color:var(--text-secondary); margin-top:4px;">0/7 completate</div>
+                    </div>
+                </div>
+                <div class="slot-summary-bar">
+                    Slot: Mar pom (2,5h) • Mer sera (1,25h) • Gio mat (1,75h) • Ven mat (1,75h) • Sab mat (1,75h)
+                </div>
+                <div class="subject-content">
+                    <!-- Blocco A -->
+                    <div>
+                        <div class="block-header">Blocco A — Recupero &amp; Consolidamento dall'inizio del programma</div>
+                        <div class="week-list">
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w1">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 1</div>
+                                    <div class="task-title">Elementi introduttivi e Numeri Reali</div>
+                                    <div class="task-desc">Principio di induzione, fattoriale, binomio di Newton; completezza di R, proprietà di Archimede, densità di Q in R; estremo superiore/inferiore e caratterizzazione (D), modulo e disuguaglianza triangolare (d).</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w2">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 2</div>
+                                    <div class="task-title">Funzioni e Limiti di Funzioni</div>
+                                    <div class="task-desc">Funzioni elementari, inverse, trigonometriche e iperboliche; intorni, unicità del limite (D), permanenza del segno (D), due Carabinieri (D), limite fondamentale sin(x)/x (D), numero e, o-piccolo e gerarchia degli infiniti.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w3">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 3</div>
+                                    <div class="task-title">Successioni, Serie Numeriche e Continuità</div>
+                                    <div class="task-desc">Limiti di successioni monotone, Bolzano-Weierstrass (d); serie geometrica (D) e armonica generalizzata (D), criteri del confronto (D), rapporto, radice (D) e Leibniz (d); continuità, discontinuità, teoremi di Weierstrass (D), Bolzano/zeri (D) e valori intermedi (D).</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Blocco B -->
+                    <div>
+                        <div class="block-header" style="border-color:var(--blue-border); color:#93c5fd;">Blocco B — Nuovi Argomenti &amp; Simulazioni d'Esame</div>
+                        <div class="week-list">
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w4">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 4</div>
+                                    <div class="task-title">Calcolo Differenziale e Formula di Taylor</div>
+                                    <div class="task-desc">Derivabilità, derivata della composta (D) e inversa, punti di non derivabilità; teoremi di Fermat (D), Rolle (D), Lagrange (D), De L'Hôpital (d); studi di funzione (convessità, flessi, asintoti); polinomio e formula di Taylor con resto di Peano (D) e Lagrange.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w5">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 5</div>
+                                    <div class="task-title">Calcolo Integrale (Cauchy-Riemann)</div>
+                                    <div class="task-desc">Partizioni, somme di Cauchy, integrabilità, teorema della media (D); primitive e Teorema Fondamentale del Calcolo Integrale (D); integrazione per parti (d), sostituzione (trigonometriche/iperboliche) e funzioni razionali fratte.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w6">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 6</div>
+                                    <div class="task-title">Integrali Generalizzati ed Equazioni Differenziali</div>
+                                    <div class="task-desc">Integrabilità in senso generalizzato, criterio del confronto (D), integrali impropri notevoli 1/x^α e 1/(x^α(log x)^β) (D); EDO lineari del 1° ordine, a variabili separabili (problema di Cauchy) e lineari del 2° ordine a coefficienti costanti (metodo di somiglianza).</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="analisi">
+                                <input type="checkbox" class="task-checkbox" id="an-w7">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 7</div>
+                                    <div class="task-title">Ripasso Dimostrazioni (D) &amp; Simulazioni</div>
+                                    <div class="task-desc">Ripasso sistematico di tutte le dimostrazioni (D) richieste allo scritto/orale e svolgimento cronometrato dei temi d'esame dalla dispensa del prof. Colombo su Moodle.</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FINESTRA 3 — FONDAMENTI DI ALGEBRA LINEARE -->
+            <section id="finestra-algebra" class="window subject-window-algebra">
+                <div class="window-bar">
+                    <div>
+                        <div class="window-title" style="color:#d8b4fe;">Fondamenti di Algebra Lineare</div>
+                        <div class="window-subtitle">Spazi Vettoriali, Applicazioni &amp; Forme Canoniche</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span class="hours-badge badge-purple">~8,0h / sett</span>
+                        <div id="count-algebra" style="font-family:monospace; font-size:0.72rem; color:var(--text-secondary); margin-top:4px;">0/7 completate</div>
+                    </div>
+                </div>
+                <div class="slot-summary-bar">
+                    Slot: Lun sera (1,75h) • Mer pom (3h) • Gio sera (1,5h) • Sab mat (1,75h)
+                </div>
+                <div class="subject-content">
+                    <!-- Blocco A -->
+                    <div>
+                        <div class="block-header">Blocco A — Recupero &amp; Consolidamento dall'inizio del programma</div>
+                        <div class="week-list">
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w1">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 1</div>
+                                    <div class="task-title">Campi, Numeri Complessi e Spazi Vettoriali</div>
+                                    <div class="task-desc">Campi R e C; numeri complessi (forma algebrica, trigonometrica, esponenziale), formule di De Moivre, Teorema fondamentale dell'algebra; spazi vettoriali (vettori, matrici, polinomi), basi, dimensione, sottospazi, intersezione, somma e formula di Grassmann.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w2">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 2</div>
+                                    <div class="task-title">Calcolo Matriciale e Sistemi Lineari</div>
+                                    <div class="task-desc">Prodotto tra matrici, matrici invertibili ed elementari, algoritmo di riduzione di Gauss, calcolo del rango, proprietà dei determinanti e risoluzione/discussione di sistemi lineari parametrici.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w3">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 3</div>
+                                    <div class="task-title">Spazi Vettoriali Euclidei</div>
+                                    <div class="task-desc">Prodotto scalare, norma, disuguaglianze di Cauchy-Schwarz e triangolare, angolo tra vettori, ortogonalità, basi ortonormali, procedimento di ortonormalizzazione di Gram-Schmidt, prodotto vettore e calcolo di volumi.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w4">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 4</div>
+                                    <div class="task-title">Geometria Euclidea e Applicazioni Lineari</div>
+                                    <div class="task-desc">Sottovarietà lineari, posizioni reciproche, famiglie parametriche, ortogonalità e punti di minima distanza; applicazioni lineari, nucleo, immagine, formula delle dimensioni, endomorfismi, isomorfismi, proiezioni, simmetrie e cambiamento di base (similitudine).</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Blocco B -->
+                    <div>
+                        <div class="block-header" style="border-color:var(--purple-border); color:#d8b4fe;">Blocco B — Nuovi Argomenti &amp; Simulazioni d'Esame</div>
+                        <div class="week-list">
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w5">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 5</div>
+                                    <div class="task-title">Forme Canoniche e Diagonalizzazione</div>
+                                    <div class="task-desc">Autovalori e autovettori, polinomio caratteristico, molteplicità algebrica e geometrica, criterio di diagonalizzabilità, isometrie, matrici ortogonali e ortodiagonalizzazione di matrici simmetriche reali.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w6">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 6</div>
+                                    <div class="task-title">Esercizi Misti di Collegamento</div>
+                                    <div class="task-desc">Esercizi trasversali che uniscono applicazioni lineari, ortogonalizzazione di Gram-Schmidt, proiezioni ortogonali e diagonalizzazione di endomorfismi simmetrici.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="algebra">
+                                <input type="checkbox" class="task-checkbox" id="al-w7">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 7</div>
+                                    <div class="task-title">Simulazioni Complete d'Esame</div>
+                                    <div class="task-desc">Prove d'esame complete cronometrate per azzerare gli errori di calcolo su Gauss, determinanti, autospazi e distanze in spazi euclidei.</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FINESTRA 4 — CHIMICA -->
+            <section id="finestra-chimica" class="window subject-window-chimica">
+                <div class="window-bar">
+                    <div>
+                        <div class="window-title" style="color:#6ee7b7;">Chimica</div>
+                        <div class="window-subtitle">Fondamenti, Termodinamica, Equilibri &amp; Materiali</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span class="hours-badge badge-emerald">~3,0h / sett</span>
+                        <div id="count-chimica" style="font-family:monospace; font-size:0.72rem; color:var(--text-secondary); margin-top:4px;">0/7 completate</div>
+                    </div>
+                </div>
+                <div class="slot-summary-bar">
+                    Slot: Mar pom (1,5h) • Ven mat (1,5h)
+                </div>
+                <div class="subject-content">
+                    <!-- Blocco A -->
+                    <div>
+                        <div class="block-header">Blocco A — Recupero &amp; Consolidamento dall'inizio del programma</div>
+                        <div class="week-list">
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w1">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 1</div>
+                                    <div class="task-title">Struttura Atomica, Tavola Periodica e Legame Chimico</div>
+                                    <div class="task-desc">Isotopi, mole, numeri quantici, configurazioni elettroniche, proprietà periodiche; legami ionici, covalenti e metallici, strutture di Lewis, risonanza, geometria VSEPR, polarità, ibridazione e orbitali molecolari.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w2">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 2</div>
+                                    <div class="task-title">Stechiometria e Stati della Materia (Stato Solido)</div>
+                                    <div class="task-desc">Nomenclatura, numeri di ossidazione, bilanciamento reazioni e calcoli stechiometrici; gas ideali/reali, liquidi, soluzioni; solidi amorfi e cristallini, reticoli, strutture compatte, difetti puntuali, dislocazioni, bordi di grano e trattamenti termici.</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Blocco B -->
+                    <div>
+                        <div class="block-header" style="border-color:var(--emerald-border); color:#6ee7b7;">Blocco B — Nuovi Argomenti &amp; Simulazioni d'Esame</div>
+                        <div class="week-list">
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w3">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 3</div>
+                                    <div class="task-title">Termodinamica Chimica</div>
+                                    <div class="task-desc">Energia interna, entalpia e legge di Hess, entropia, energia libera di Gibbs e criteri di spontaneità dei processi chimici.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w4">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 4</div>
+                                    <div class="task-title">Equilibrio Chimico e Cinetica</div>
+                                    <div class="task-desc">Costante di equilibrio, calcoli sulle composizioni all'equilibrio, principio di Le Chatelier, velocità di reazione e catalisi.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w5">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 5</div>
+                                    <div class="task-title">Equilibri Ionici in Soluzione</div>
+                                    <div class="task-desc">Teorie acidi-basi, calcolo del pH (acidi/basi forti e deboli), soluzioni tampone, solubilità, prodotto di solubilità (Kps) ed effetto dello ione comune.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w6">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 6</div>
+                                    <div class="task-title">Elettrochimica e Corrosione dei Materiali</div>
+                                    <div class="task-desc">Bilanciamento redox, celle galvaniche ed elettrolitiche, potenziali standard, equazione di Nernst, leggi di Faraday, sovratensione e meccanismi/protezione dalla corrosione metallica.</div>
+                                </div>
+                            </label>
+                            <label class="task-card" data-subject="chimica">
+                                <input type="checkbox" class="task-checkbox" id="ch-w7">
+                                <div>
+                                    <div class="task-week-tag">SETTIMANA 7</div>
+                                    <div class="task-title">Ripasso Materiali &amp; Simulazioni d'Esame</div>
+                                    <div class="task-desc">Ripasso collegamenti tra microstruttura/difetti e proprietà meccaniche + esercizi completi d'esame (stechiometria, equilibrio/pH, redox/Nernst).</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 4. FINESTRA 5 — STRATEGIA OPERATIVA WEEKEND & EDUCAZIONE FINANZIARIA -->
+        <section id="finestra-strategia" class="window">
+            <div class="window-bar">
+                <div>
+                    <div class="window-title">Strategia Operativa Weekend &amp; Educazione Finanziaria</div>
+                    <div class="window-subtitle">Gestione incastrata di Studio, Turno Lavorativo del Sabato e 5 ore settimanali di Finanza Personale</div>
+                </div>
+                <span class="hours-badge" style="background:var(--amber-bg); color:#fbbf24; border:1px solid var(--amber-border);">Ottimizzazione Weekend</span>
+            </div>
+
+            <div class="strategy-grid">
+                <!-- Box 1: Gestione Sabato -->
+                <div class="strategy-box">
+                    <div>
+                        <div class="strategy-box-title" style="margin-bottom:10px;">
+                            <span>Gestione Sabato (Studio + Finanza + Lavoro)</span>
+                            <span class="time-pill">09:00 – 19:30</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px;">
+                            Il sabato è organizzato per massimizzare il rendimento universitario al mattino, inserire un blocco pratico di finanza dopo pranzo e partire puntuale alle 15:30 per il turno lavorativo:
+                        </p>
+                        <ul class="timeline-list">
+                            <li class="timeline-item">
+                                <span class="time-pill">09:00 – 09:30</span>
+                                <span><strong>Riordino lezione venerdì pomeriggio:</strong> revisione immediata degli appunti della lezione delle 14:30–16:30 del venerdì.</span>
+                            </li>
+                            <li class="timeline-item">
+                                <span class="time-pill" style="color:#60a5fa; border-color:var(--blue-border);">09:30 – 11:00</span>
+                                <span><strong>Analisi Matematica 1 (1,5h):</strong> risoluzione degli esercizi più complessi della settimana e simulazioni d'esame cronometrate.</span>
+                            </li>
+                            <li class="timeline-item">
+                                <span class="time-pill" style="color:#c084fc; border-color:var(--purple-border);">11:00 – 12:30</span>
+                                <span><strong>Algebra Lineare (1,5h):</strong> esercizi su spazi euclidei, applicazioni lineari e diagonalizzazione senza guardare le soluzioni.</span>
+                            </li>
+                            <li class="timeline-item">
+                                <span class="time-pill" style="color:#fbbf24; border-color:var(--amber-border);">13:45 – 15:00</span>
+                                <span><strong>Educazione Finanziaria (1,25h):</strong> sessione pratica post-pranzo prima di prepararsi per uscire alle 15:30.</span>
+                            </li>
+                            <li class="timeline-item">
+                                <span class="time-pill" style="color:#22d3ee; border-color:var(--cyan-border);">15:30 – 19:30</span>
+                                <span><strong>Lavoro (turno 16:00 – 19:00):</strong> partenza da casa alle 15:30 e rientro per cena; sabato sera completamente libero.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="strategy-footer">
+                        Sabato sera e domenica mattina/sera restano completamente liberi per il recupero mentale.
+                    </div>
+                </div>
+
+                <!-- Box 2: Distribuzione Educazione Finanziaria -->
+                <div class="strategy-box">
+                    <div>
+                        <div class="strategy-box-title" style="margin-bottom:10px;">
+                            <span>Distribuzione 5 Ore di Educazione Finanziaria</span>
+                            <span class="time-pill" style="color:#fbbf24; border-color:var(--amber-border);">5,0h / sett</span>
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:14px;">
+                            Le 5 ore settimanali sono suddivise in 4 appuntamenti fissi che non sottraggono energie alle sessioni di calcolo universitario e rispettano lo stop allo studio dopo le 22:00:
+                        </p>
+                        <div class="finance-mini-grid">
+                            <div class="finance-mini-card">
+                                <div class="finance-mini-time">Giovedì 21:00 – 22:00 (1h)</div>
+                                <div class="finance-mini-text">Ripasso concetti base, video formativi o podcast finanziari per staccare dai calcoli di Algebra e Analisi.</div>
+                            </div>
+                            <div class="finance-mini-card">
+                                <div class="finance-mini-time">Venerdì 12:00 – 13:00 (1h)</div>
+                                <div class="finance-mini-text">Studio strutturato prima della pausa pranzo e della lezione pomeridiana delle 14:30.</div>
+                            </div>
+                            <div class="finance-mini-card">
+                                <div class="finance-mini-time">Sabato 13:45 – 15:00 (1,25h)</div>
+                                <div class="finance-mini-text">Esercitazioni pratiche su fogli di calcolo, budgeting, interesse composto e analisi strumenti finanziari.</div>
+                            </div>
+                            <div class="finance-mini-card">
+                                <div class="finance-mini-time">Domenica 15:30 – 17:15 (1,75h)</div>
+                                <div class="finance-mini-text">Blocco lungo e rilassato dedicato alla lettura di testi di finanza personale, fiscalità e pianificazione.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="strategy-footer">
+                        Totale esatto: 1h (Gio) + 1h (Ven) + 1,25h (Sab) + 1,75h (Dom) = 5,0 ore/settimana.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Notifica Salvataggio -->
+    <div id="toast" class="toast">Progresso salvato</div>
+
+    <script>
+        (function () {
+            const STORAGE_KEY = "unipd_meccanica_y1_progress_v1";
+
+            // 1. FILTRI INTERATTIVI PIANO SETTIMANALE
+            const filterButtons = document.querySelectorAll(".filter-btn");
+            const slotCards = document.querySelectorAll(".slot-card");
+
+            filterButtons.forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    const selected = btn.getAttribute("data-filter");
+
+                    filterButtons.forEach(function (b) {
+                        b.classList.remove("active");
+                    });
+                    btn.classList.add("active");
+
+                    slotCards.forEach(function (card) {
+                        if (selected === "all") {
+                            card.classList.remove("dimmed");
+                        } else {
+                            const tags = (card.getAttribute("data-tags") || "").split(" ");
+                            if (tags.indexOf(selected) !== -1) {
+                                card.classList.remove("dimmed");
+                            } else {
+                                card.classList.add("dimmed");
+                            }
+                        }
+                    });
+                });
+            });
+
+            // 2. GESTIONE CHECKBOX E PROGRESSI MATERIE
+            const checkboxes = document.querySelectorAll(".task-checkbox");
+            const globalFill = document.getElementById("global-progress-fill");
+            const globalText = document.getElementById("global-progress-text");
+            const toast = document.getElementById("toast");
+            let toastTimer = null;
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add("show");
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toast.classList.remove("show");
+                }, 1800);
+            }
+
+            function loadSavedState() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return {};
+                    return JSON.parse(raw) || {};
+                } catch (e) {
+                    return {};
+                }
+            }
+
+            function saveState(state) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                } catch (e) {
+                    // Ignora errori se localStorage non è disponibile
+                }
+            }
+
+            function updateCounters() {
+                const subjects = ["analisi", "algebra", "chimica"];
+                let totalChecked = 0;
+                let totalAll = checkboxes.length;
+
+                subjects.forEach(function (subj) {
+                    const cards = document.querySelectorAll('.task-card[data-subject="' + subj + '"]');
+                    let done = 0;
+                    cards.forEach(function (card) {
+                        const cb = card.querySelector(".task-checkbox");
+                        if (cb && cb.checked) {
+                            done++;
+                            card.classList.add("completed");
+                        } else {
+                            card.classList.remove("completed");
+                        }
+                    });
+                    totalChecked += done;
+                    const counterEl = document.getElementById("count-" + subj);
+                    if (counterEl) {
+                        counterEl.textContent = done + "/" + cards.length + " completate";
+                    }
+                });
+
+                const pct = totalAll > 0 ? Math.round((totalChecked / totalAll) * 100) : 0;
+                if (globalFill) globalFill.style.width = pct + "%";
+                if (globalText) globalText.textContent = pct + "%";
+            }
+
+            // Inizializza stato salvato
+            const saved = loadSavedState();
+            checkboxes.forEach(function (cb) {
+                if (saved[cb.id]) {
+                    cb.checked = true;
+                }
+                cb.addEventListener("change", function () {
+                    const current = loadSavedState();
+                    current[cb.id] = cb.checked;
+                    saveState(current);
+                    updateCounters();
+                    showToast(cb.checked ? "Settimana completata" : "Settimana riaperta");
+                });
+            });
+
+            updateCounters();
+
+            // Espone funzione reset globale
+            window.resetAllProgress = function () {
+                checkboxes.forEach(function (cb) {
+                    cb.checked = false;
+                });
+                saveState({});
+                updateCounters();
+                showToast("Progressi azzerati");
+            };
+        })();
+    </script>
+</body>
+</html>
